@@ -35,7 +35,10 @@ public class Application extends Controller {
     	Map <String, Collection<String>> dimensions = new HashedMap();
     	
     	Collection<String> universes = engine.getUniverses();
+    	
     	Map <String, Collection<String>> measures = new HashedMap();
+    	
+    	Map <String, Long> measureset_records_count = new HashedMap();
     	
     	for (String universe : universes) {    	
     		
@@ -54,7 +57,9 @@ public class Application extends Controller {
     		Logger.debug ("Display universe: " + universe);
     		Logger.debug ("Display measuresets: " + engine.getMeasureSetsNames (universe));
     		
-    		for (String measureset: engine.getMeasureSetsNames (universe)) {
+    		Collection <String> measureset_names = engine.getMeasureSetsNames (universe);
+    		
+    		for (String measureset: measureset_names) {
     			
     			try {
 					
@@ -64,6 +69,23 @@ public class Application extends Controller {
 				} catch (UniverseNotExistException e) {
 					
 					Logger.warn ("Universe does not exist: " + universe);
+				}
+    		}
+    		
+    		for (String measureset: measureset_names) {
+    			
+    			try {
+					
+    				measureset_records_count.put (universe + measureset, 
+							engine.getMasureSetRecordsNumber (universe, measureset));
+					
+				} catch (UniverseNotExistException e) {
+					
+					Logger.warn ("Universe does not exist: " + universe);
+					
+				} catch (ActionNotPermittedException e) {
+					
+					Logger.warn ("Error retriving PlanningRecords count: " + e.getMessage());
 				}
     		}
     	}
@@ -169,7 +191,7 @@ public class Application extends Controller {
 			
 			rels = engine.getAllDimensionRelationships(universe, dimension);
 			
-			Logger.debug("rels.size = " + rels.size());
+			Logger.debug ("getDimRelationships rels.size = " + rels.size());
 			
 		} catch (UniverseNotExistException e) {
 			
