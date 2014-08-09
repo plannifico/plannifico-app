@@ -1,0 +1,90 @@
+@(
+	status: Int, 
+  	universes: Collection[String], 
+  	dimensions: Map[String, Collection[String]],
+  	measuresets: Map[String, Collection[String]],
+  	measures: Map[String, Collection[String]]
+)
+
+@toStartedStopped(choice: Int) = @{
+				
+	choice match { 
+	    case 1 => "started"
+	    case 0 => "stopped"
+	    case _ => "error"
+	}
+}
+	
+@main(title = "Home") {
+
+	<form action="@{routes.Application.submitStart()}" method="GET">
+		
+		<input type="submit" value="Start" />	
+		
+	</form>
+	
+	<form action="@{routes.Application.submitStop()}" method="GET">
+		
+		<input type="submit" value="Stop" />
+	</form>
+	
+	<p>Server Status = @toStartedStopped(status)</p>
+	
+	<p>universes:</p>
+	
+	<ul> 
+	@for(universe <- universes) {
+	
+	  <li>Universe: @universe</li>
+	  
+	  <ul>
+	  	@for(dimension <- dimensions.get (universe)) {
+	  	
+	  		<li>dimension: @dimension 
+	  			<a href="@{routes.Application.getDimRelationships(universe,dimension)}">
+	  				<button>Get Relationships</button>
+	  			</a>
+	  		</li>			
+		}  		
+	  </ul>
+	   
+	  <ul>
+	  	@for(measureset <- measuresets.get (universe)) {
+	  	
+	  		<li>MeasureSet: @measureset</li>
+	  		<ul>
+		  	@for(measure <- measures.get (universe + measureset)) {
+		  	
+		  		<li>Measure: @measure</li>
+				
+			}  		
+		  	</ul>
+			
+		}  		
+	  </ul>
+	} 
+	</ul>
+	
+
+	<p>Get MeasureSet Records Count:
+	<form action="@{routes.Application.getMeasureSetRecordCount()}" method="GET">
+		
+		<input type="text" name="universe" value="SalesUniverse" />
+		<input type="text" name="measureset" value="Sales" />
+				
+		<input type="submit" value="Run" />
+	</form></p>
+	
+	<form action="@{routes.Application.getAggregatedValue()}" method="GET">
+		
+		<input type="text" name="universe" value="SalesUniverse" />
+		<input type="text" name="measureset" value="Sales" />
+		<input type="text" name="measure" value="Quantity" />
+		
+		<input type="submit" value="Run" />
+	</form>
+		
+}
+
+
+

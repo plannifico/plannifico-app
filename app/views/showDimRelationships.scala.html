@@ -1,0 +1,23 @@
+@(universe: String, dimension: String, rels: Map[String, Collection[String]])
+
+@main(title = "Home") {
+	
+	<p>Universe: @universe </p>
+	<p>Dimension: @dimension </p>
+	<table>
+		<tbody>
+		@for((key, attrs) <- rels) {
+			<tr>
+			  <td>@key</td>
+			  	@for(attr <-  attrs) {			  
+					<td>@attr</td>
+				}	  
+			</tr>
+		}	
+		
+		</tbody>
+	</table>
+}
+
+
+

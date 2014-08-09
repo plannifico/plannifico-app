@@ -1,0 +1,19 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /					controllers.Application.index()
+GET     /submitStart		controllers.Application.submitStart()
+GET     /submitStop			controllers.Application.submitStop()
+GET     /index				controllers.Application.index()
+
+GET     /getMeasureSetCount		controllers.Application.getMeasureSetCount()
+GET     /getMeasureSetRecordCount	controllers.Application.getMeasureSetRecordCount()
+GET     /getAggregatedValue		controllers.Application.getAggregatedValue()
+
+GET     /getDimRelationships/universe/dimension		controllers.Application.getDimRelationships(universe,dimension)
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
