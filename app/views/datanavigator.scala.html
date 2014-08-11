@@ -1,0 +1,62 @@
+@(universe: String, 
+  measureset: String,
+  dimensions: Map[String, Collection[String]],
+  measures: Map[String, Collection[String]])
+
+@main(title = "Home") {
+	
+	<div class="universe-name-container" id="@universe">Universe: @universe </div>
+	<div class="measureset-name-container" id="@measureset">MeasureSet: @measureset </div>
+	
+	<div>
+		<div class="span-24 border">
+			Dimensions:
+		</div> 
+	  	@for(dimension <- dimensions.get (universe)) {
+	  	
+	  		<div id="dim-@dimension" class="span-6 border ui-widget-content draggable-dim">@dimension</div>			
+		}		 		
+	<div>
+	  
+	<div>
+		<div class="span-24 border">
+			Measures:
+		</div> 
+	  	@for(measure <- measures.get (universe + measureset)) {
+	  	
+	  		<div id="measure-@measure" class="span-6 border ui-widget-content draggable-dim">@measure</div>			
+		}  		
+	</div>
+	
+	<div id="pivot-area">
+		
+		<div id="pivot-selection">
+			<div id="pivot-selection-header" class="span-24">
+				Selection
+			</div>
+			<div id="pivot-selection-rows" class="span-6 border ui-widget-header droppable">
+				<p>rows<p>	
+			</div>
+			<div id="pivot-selection-cols" class="span-6 border ui-widget-header droppable">
+				<p>cols</p>
+			</div>
+			<div id="pivot-selection-measures" class="span-6 border ui-widget-header droppable">
+				<p>measures</p>
+			</div>
+			<div id="pivot-selection-filters" class="span-5 border last ui-widget-header droppable">
+				<p>filters</p>
+			</div>
+		</div>
+		
+		<div id="pivot-data" class="span-24">
+			data
+		</div>
+		<div>
+			<button id="invoke-get-data-btn">get data</button>
+		</div>
+	</div>
+	
+}
+
+
+

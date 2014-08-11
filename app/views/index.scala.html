@@ -1,9 +1,7 @@
 @(
 	status: Int, 
-  	universes: Collection[String], 
-  	dimensions: Map[String, Collection[String]],
-  	measuresets: Map[String, Collection[String]],
-  	measures: Map[String, Collection[String]]
+  	universes: Collection[String],   	
+  	measuresets: Map[String, Collection[String]]
 )
 
 @toStartedStopped(choice: Int) = @{
@@ -36,45 +34,26 @@
 	@for(universe <- universes) {
 	
 	  <li>Universe: @universe</li>
-	  
 	  <ul>
-	  	@for(dimension <- dimensions.get (universe)) {
-	  	
-	  		<li>dimension: @dimension 
-	  			<a href="@{routes.Application.getDimRelationships(universe,dimension)}">
-	  				<button>Get Relationships</button>
-	  			</a>
-	  		</li>			
-		}  		
-	  </ul>
-	   
-	  <ul>
-	  	@for(measureset <- measuresets.get (universe)) {
-	  	
-	  		<li>MeasureSet: @measureset</li>
-	  		<ul>
-		  	@for(measure <- measures.get (universe + measureset)) {
-		  	
-		  		<li>Measure: @measure</li>
+	 	@for(measureset <- measuresets.get (universe)) {
+	 	
+	 		<li>MeasureSet: @measureset
+	  		
+			@helper.form(action=routes.Application.showDataNavigator()){       
+				<input type='text' name='universe' value="@universe"/>
+				<input type='text' name='measureset' value= "@measureset"/>
 				
-			}  		
-		  	</ul>
-			
-		}  		
+				<input type='submit' name='mysubmit'/>    
+			}
+	 		</li>	  		
+		
+	}  		
 	  </ul>
 	} 
 	</ul>
 	
-
-	<p>Get MeasureSet Records Count:
-	<form action="@{routes.Application.getMeasureSetRecordCount()}" method="GET">
-		
-		<input type="text" name="universe" value="SalesUniverse" />
-		<input type="text" name="measureset" value="Sales" />
-				
-		<input type="submit" value="Run" />
-	</form></p>
 	
+	<!--
 	<form action="@{routes.Application.getAggregatedValue()}" method="GET">
 		
 		<input type="text" name="universe" value="SalesUniverse" />
@@ -83,7 +62,7 @@
 		
 		<input type="submit" value="Run" />
 	</form>
-		
+	-->
 }
 
 
